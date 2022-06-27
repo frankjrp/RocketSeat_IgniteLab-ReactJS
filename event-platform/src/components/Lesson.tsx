@@ -11,6 +11,17 @@ interface LessonProps {
     type: 'live' | 'class'
 }
 
+function handleLessonClick() {
+    const view_width = window.matchMedia("(max-width: 768px)")
+
+    if (view_width.matches) {
+        document.getElementById("hide")?.classList.remove("hidden")
+        document.getElementById("sidebar")?.classList.toggle("hidden")
+    }
+
+    window.scrollTo(0, 0)
+}
+
 export function Lesson(props: LessonProps) {
     const { slug } = useParams<{ slug: string }>()
 
@@ -22,7 +33,7 @@ export function Lesson(props: LessonProps) {
     const isActiveLesson = slug === props.slug
 
     return (
-        <Link to={`/event/lesson/${props.slug}`} className='group'>
+        <Link to={`/event/lesson/${props.slug}`} className='group' onClick={handleLessonClick}>
             <span className="text-gray-300">
                 {availableDateFormatted}
             </span>
