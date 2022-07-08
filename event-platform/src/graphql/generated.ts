@@ -5583,6 +5583,13 @@ export type GetLessonBySlugQueryVariables = Exact<{
 
 export type GetLessonBySlugQuery = { __typename?: 'Query', lesson?: { __typename?: 'Lesson', title: string, videoId: string, description?: string | null, teacher?: { __typename?: 'Teacher', bio: string, avatarURL: string, name: string } | null } | null };
 
+export type GetLessonsByLessonTypeQueryVariables = Exact<{
+  type?: InputMaybe<LessonType>;
+}>;
+
+
+export type GetLessonsByLessonTypeQuery = { __typename?: 'Query', lessons: Array<{ __typename?: 'Lesson', id: string, lessonType: LessonType, availableAt?: any | null, title: string, slug: string }> };
+
 export type GetLessonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5665,6 +5672,45 @@ export function useGetLessonBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetLessonBySlugQueryHookResult = ReturnType<typeof useGetLessonBySlugQuery>;
 export type GetLessonBySlugLazyQueryHookResult = ReturnType<typeof useGetLessonBySlugLazyQuery>;
 export type GetLessonBySlugQueryResult = Apollo.QueryResult<GetLessonBySlugQuery, GetLessonBySlugQueryVariables>;
+export const GetLessonsByLessonTypeDocument = gql`
+    query GetLessonsByLessonType($type: LessonType) {
+  lessons(orderBy: availableAt_ASC, stage: PUBLISHED, where: {lessonType: $type}) {
+    id
+    lessonType
+    availableAt
+    title
+    slug
+  }
+}
+    `;
+
+/**
+ * __useGetLessonsByLessonTypeQuery__
+ *
+ * To run a query within a React component, call `useGetLessonsByLessonTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLessonsByLessonTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLessonsByLessonTypeQuery({
+ *   variables: {
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useGetLessonsByLessonTypeQuery(baseOptions?: Apollo.QueryHookOptions<GetLessonsByLessonTypeQuery, GetLessonsByLessonTypeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLessonsByLessonTypeQuery, GetLessonsByLessonTypeQueryVariables>(GetLessonsByLessonTypeDocument, options);
+      }
+export function useGetLessonsByLessonTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLessonsByLessonTypeQuery, GetLessonsByLessonTypeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLessonsByLessonTypeQuery, GetLessonsByLessonTypeQueryVariables>(GetLessonsByLessonTypeDocument, options);
+        }
+export type GetLessonsByLessonTypeQueryHookResult = ReturnType<typeof useGetLessonsByLessonTypeQuery>;
+export type GetLessonsByLessonTypeLazyQueryHookResult = ReturnType<typeof useGetLessonsByLessonTypeLazyQuery>;
+export type GetLessonsByLessonTypeQueryResult = Apollo.QueryResult<GetLessonsByLessonTypeQuery, GetLessonsByLessonTypeQueryVariables>;
 export const GetLessonsDocument = gql`
     query GetLessons {
   lessons(orderBy: availableAt_ASC, stage: PUBLISHED) {

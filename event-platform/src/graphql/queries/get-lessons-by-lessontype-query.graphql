@@ -1,0 +1,9 @@
+query GetLessonsByLessonType($type: LessonType) {
+  lessons(orderBy: availableAt_ASC, stage: PUBLISHED, where: {lessonType: $type}) {
+    id
+    lessonType
+    availableAt
+    title
+    slug
+  }
+}
